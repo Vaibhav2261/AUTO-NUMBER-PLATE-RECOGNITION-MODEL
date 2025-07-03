@@ -1,0 +1,21 @@
+anpr-yolo-ocr/
+├── data/
+│   ├── raw/              
+│   └── annotations/      
+├── model/
+│   ├── yolov8n.pt        
+│   └── best.pt           
+├── ocr/
+│   ├── tesseract_reader.py  
+│   └── output_texts/        
+├── notebooks/
+│   ├── EDA.ipynb            #Image exploration
+│   └── TrainingYOLO.ipynb   #YOLO training logic
+├── utils/
+│   ├── preprocess.py        #Image enhancement etc.
+│   └── yolo_helpers.py      #Box processing helpers
+├── inference/
+│   └── run_inference.py     #Full detection + OCR script
+├── requirements.txt         #Dependencies
+├── README.md
+└── train.py                 #CLI training script
