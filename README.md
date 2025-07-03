@@ -43,7 +43,6 @@
 <h2>📂 Project Structure</h2>
 
 <pre><code>
-anpr-yolo-ocr/
 ├── data/                  # Datasets
 │   ├── train/             # Training images
 │   ├── val/               # Validation images
