@@ -1,48 +1,57 @@
 import os
-import shutil
 import random
+import shutil
 
+# Set paths
 RAW_DIR = "data/raw"
-IMAGE_DIR = "data/images"
-LABEL_DIR = "data/labels"
+DEST_DIR = "data"
+IMAGE_EXTENSIONS = [".jpg", ".jpeg", ".png"]
+LABEL_EXTENSION = ".txt"
 
 # Split ratios
-train_ratio = 0.8
-val_ratio = 0.1
-test_ratio = 0.1
+TRAIN_RATIO = 0.7
+VAL_RATIO = 0.2
+TEST_RATIO = 0.1
 
 # Create destination folders
 for split in ["train", "val", "test"]:
-    os.makedirs(os.path.join(IMAGE_DIR, split), exist_ok=True)
-    os.makedirs(os.path.join(LABEL_DIR, split), exist_ok=True)
+    os.makedirs(os.path.join(DEST_DIR, split, "images"), exist_ok=True)
+    os.makedirs(os.path.join(DEST_DIR, split, "labels"), exist_ok=True)
 
-# Get all image files
-images = [f for f in os.listdir(RAW_DIR) if f.endswith(".png")]
-random.shuffle(images)
+# Collect all image files (matching only those that also have corresponding .txt label)
+all_images = []
+for file in os.listdir(RAW_DIR):
+    if any(file.endswith(ext) for ext in IMAGE_EXTENSIONS):
+        label_file = os.path.splitext(file)[0] + LABEL_EXTENSION
+        if os.path.exists(os.path.join(RAW_DIR, label_file)):
+            all_images.append(file)
 
-total = len(images)
-train_count = int(total * train_ratio)
-val_count = int(total * val_ratio)
+print(f"Found {len(all_images)} annotated image-label pairs.")
 
-splits = {
-    "train": images[:train_count],
-    "val": images[train_count:train_count + val_count],
-    "test": images[train_count + val_count:]
-}
+# Shuffle and split
+random.shuffle(all_images)
+total = len(all_images)
+train_end = int(total * TRAIN_RATIO)
+val_end = train_end + int(total * VAL_RATIO)
 
-for split, img_list in splits.items():
-    for img_file in img_list:
-        base = os.path.splitext(img_file)[0]
-        txt_file = base + ".txt"
+train_files = all_images[:train_end]
+val_files = all_images[train_end:val_end]
+test_files = all_images[val_end:]
 
-        src_img = os.path.join(RAW_DIR, img_file)
-        src_txt = os.path.join(RAW_DIR, txt_file)
+splits = [("train", train_files), ("val", val_files), ("test", test_files)]
 
-        dst_img = os.path.join(IMAGE_DIR, split, img_file)
-        dst_txt = os.path.join(LABEL_DIR, split, txt_file)
+# Copy files
+for split_name, files in splits:
+    for img_file in files:
+        label_file = os.path.splitext(img_file)[0] + LABEL_EXTENSION
 
-        shutil.copyfile(src_img, dst_img)
-        if os.path.exists(src_txt):
-            shutil.copyfile(src_txt, dst_txt)
+        # Copy image
+        shutil.copy2(os.path.join(RAW_DIR, img_file),
+                     os.path.join(DEST_DIR, split_name, "images", img_file))
+        # Copy label
+        shutil.copy2(os.path.join(RAW_DIR, label_file),
+                     os.path.join(DEST_DIR, split_name, "labels", label_file))
 
-print("✅ Dataset split into train/val/test completed.")
+    print(f"✅ {split_name.upper()}: {len(files)} samples copied.")
+
+print("🎯 Dataset split complete!")
