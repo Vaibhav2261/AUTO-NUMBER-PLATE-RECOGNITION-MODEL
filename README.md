@@ -44,6 +44,7 @@
 
 <pre><code>
 ├── data/                  # Datasets
+│   ├── raw/               # Datasets also containd .xml and .txt files 
 │   ├── train/             # Training images
 │   ├── val/               # Validation images
 │   └── test/              # Test images
