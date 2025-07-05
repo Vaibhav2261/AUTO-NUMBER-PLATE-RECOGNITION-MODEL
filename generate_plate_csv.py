@@ -7,7 +7,7 @@ from ultralytics import YOLO
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 # ✅ Load trained YOLO model
-model = YOLO('model/best.pt')
+model = YOLO('runs/train/anpr_yolo/weights/best.pt')
 
 # 📁 Folder containing the 400+ raw images
 image_folder = 'data/raw/'
