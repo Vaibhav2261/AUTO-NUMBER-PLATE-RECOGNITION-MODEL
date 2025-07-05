@@ -9,7 +9,7 @@ def preprocess_for_ocr(img):
     _, thresh = cv2.threshold(gray, 150, 255, cv2.THRESH_BINARY)
     return thresh
 
-def main(weights="D:\git\AUTO NUMBER PLATE RECOGNITION MODEL\model\best.pt", source="test.jpg", save_crops="plates/"):
+def main(weights="model/best.pt", source="test.jpg", save_crops="plates/"):
     model = YOLO(weights)
     results = model.predict(source, imgsz=640, conf=0.25, verbose=False)
 
