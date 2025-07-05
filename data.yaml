@@ -1,0 +1,5 @@
+path: data/
+train: train/images
+val: test/images
+nc: 1
+names: ['licence']
