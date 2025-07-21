@@ -1,5 +1,6 @@
 import os
 import xml.etree.ElementTree as ET
+
 from PIL import Image
 
 # Input and output directory (same in this case)
@@ -54,10 +55,14 @@ for filename in os.listdir(ANNOT_DIR):
             box_width = (xmax - xmin) / w
             box_height = (ymax - ymin) / h
 
-            f.write(f"0 {x_center:.6f} {y_center:.6f} {box_width:.6f} {box_height:.6f}\n")
+            f.write(
+                f"0 {x_center:.6f} {y_center:.6f} {box_width:.6f} {box_height:.6f}\n"
+            )
             count += 1
 
     if count == 0:
-        print(f"⚠️ No '{CLASS_NAME}' objects found in {filename}. Empty .txt file created.")
+        print(
+            f"⚠️ No '{CLASS_NAME}' objects found in {filename}. Empty .txt file created."
+        )
     else:
         print(f"✅ Converted {filename} → {txt_filename} with {count} object(s)")

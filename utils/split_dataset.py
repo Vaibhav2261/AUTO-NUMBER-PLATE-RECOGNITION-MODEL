@@ -46,11 +46,15 @@ for split_name, files in splits:
         label_file = os.path.splitext(img_file)[0] + LABEL_EXTENSION
 
         # Copy image
-        shutil.copy2(os.path.join(RAW_DIR, img_file),
-                     os.path.join(DEST_DIR, split_name, "images", img_file))
+        shutil.copy2(
+            os.path.join(RAW_DIR, img_file),
+            os.path.join(DEST_DIR, split_name, "images", img_file),
+        )
         # Copy label
-        shutil.copy2(os.path.join(RAW_DIR, label_file),
-                     os.path.join(DEST_DIR, split_name, "labels", label_file))
+        shutil.copy2(
+            os.path.join(RAW_DIR, label_file),
+            os.path.join(DEST_DIR, split_name, "labels", label_file),
+        )
 
     print(f"✅ {split_name.upper()}: {len(files)} samples copied.")
 
