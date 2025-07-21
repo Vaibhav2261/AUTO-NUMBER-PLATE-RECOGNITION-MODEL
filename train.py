@@ -1,10 +1,12 @@
-import os
 import argparse
+import os
 
 from ultralytics import YOLO
 
-model = YOLO('yolov8n.pt')  # or 'yolov8s.pt' if preferred
-model.train(data='anpr.yaml', epochs=50, imgsz=640, batch=16)
+model = YOLO("yolov8n.pt")  # or 'yolov8s.pt' if preferred
+model.train(data="anpr.yaml", epochs=50, imgsz=640, batch=16)
+
+
 def train_yolo():
     import torch
 
@@ -25,6 +27,7 @@ def train_yolo():
         "--weights yolov5s.pt "
         "--name plate_detector"
     )
+
 
 if __name__ == "__main__":
     train_yolo()
