@@ -1,12 +1,13 @@
+import cv2
+import numpy as np
 import streamlit as st
 from PIL import Image
-import numpy as np
-import cv2
+
 from inference.run import infer_on_image
 
 st.title("Automatic Number Plate Recognition (ANPR)")
 
-uploaded_file = st.file_uploader("Upload Image", type=['jpg', 'png'])
+uploaded_file = st.file_uploader("Upload Image", type=["jpg", "png"])
 
 if uploaded_file:
     img = Image.open(uploaded_file).convert("RGB")
@@ -18,8 +19,10 @@ if uploaded_file:
     # Convert BGR back to RGB for display
     processed_img_rgb = cv2.cvtColor(processed_img, cv2.COLOR_BGR2RGB)
 
-    st.image(processed_img_rgb, caption="Detected Number Plate(s)", use_column_width=True)
+    st.image(
+        processed_img_rgb, caption="Detected Number Plate(s)", use_column_width=True
+    )
 
     st.markdown("### Extracted Numbers:")
     for i, text in enumerate(texts):
-        st.write(f"**Plate {i+1}:** `{text}`")
+        st.write(f"**Plate {i + 1}:** `{text}`")
