@@ -1,7 +1,10 @@
-from utils.ocr_utils import preprocess_plate
 import pytesseract
 
-config = '--oem 3 --psm 7 -c tessedit_char_whitelist=ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+from utils.ocr_utils import preprocess_plate
+
+config = (
+    "--oem 3 --psm 7 -c tessedit_char_whitelist=ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+)
 
 ...
 for idx, box in enumerate(results[0].boxes):
