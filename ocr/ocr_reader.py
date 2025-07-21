@@ -1,5 +1,6 @@
-import pytesseract
 import cv2
+import pytesseract
+
 
 def read_plate_text(image):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
