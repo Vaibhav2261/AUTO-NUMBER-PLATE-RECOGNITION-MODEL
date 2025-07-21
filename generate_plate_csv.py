@@ -1,25 +1,26 @@
 import os
+
 import cv2
 import pytesseract
 from ultralytics import YOLO
 
 # ⛔ Update this path if Tesseract is installed elsewhere
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 # ✅ Load trained YOLO model
-model = YOLO('runs/train/anpr_yolo/weights/best.pt')
+model = YOLO("runs/train/anpr_yolo/weights/best.pt")
 
 # 📁 Folder containing the 400+ raw images
-image_folder = 'data/raw/'
-output_csv = 'number_plate_predictions.csv'
+image_folder = "data/raw/"
+output_csv = "number_plate_predictions.csv"
 
 # 📄 Open output CSV and write header
-with open(output_csv, 'w') as f:
+with open(output_csv, "w") as f:
     f.write("Image,NumberPlate\n")
 
     # 🔁 Process each image
     for img_name in os.listdir(image_folder):
-        if not img_name.lower().endswith(('.jpg', '.png', '.jpeg')):
+        if not img_name.lower().endswith((".jpg", ".png", ".jpeg")):
             continue
 
         img_path = os.path.join(image_folder, img_name)
@@ -42,7 +43,7 @@ with open(output_csv, 'w') as f:
                 gray = cv2.bilateralFilter(gray, 11, 17, 17)
                 _, thresh = cv2.threshold(gray, 150, 255, cv2.THRESH_BINARY)
 
-                text = pytesseract.image_to_string(thresh, config='--psm 7')
+                text = pytesseract.image_to_string(thresh, config="--psm 7")
                 number = text.strip().replace("\n", "").replace(" ", "")
                 break  # First plate per image only
 

@@ -1,5 +1,7 @@
-from ultralytics import YOLO
 import cv2
+import pytesseract
+from ultralytics import YOLO
+
 from ocr.tesseract_reader import extract_text
 
 model = YOLO("model/best.pt")
@@ -18,7 +20,15 @@ while True:
             text = extract_text(plate_crop)
             print("Detected Plate:", text)
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-            cv2.putText(frame, text, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
+            cv2.putText(
+                frame,
+                text,
+                (x1, y1 - 10),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.9,
+                (0, 255, 0),
+                2,
+            )
 
     cv2.imshow("Video ANPR", frame)
     if cv2.waitKey(1) == 27:
@@ -28,9 +38,8 @@ cap.release()
 cv2.destroyAllWindows()
 
 # ocr/tesseract_reader.py
-import pytesseract
-import cv2
+
 
 def extract_text(plate_img):
     gray = cv2.cvtColor(plate_img, cv2.COLOR_BGR2GRAY)
-    return pytesseract.image_to_string(gray, config='--psm 7').strip()
+    return pytesseract.image_to_string(gray, config="--psm 7").strip()
