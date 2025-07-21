@@ -1,6 +1,10 @@
 import os
 import argparse
 
+from ultralytics import YOLO
+
+model = YOLO('yolov8n.pt')  # or 'yolov8s.pt' if preferred
+model.train(data='anpr.yaml', epochs=50, imgsz=640, batch=16)
 def train_yolo():
     import torch
 
