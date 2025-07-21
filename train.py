@@ -1,5 +1,6 @@
-import os
 import argparse
+import os
+
 
 def train_yolo():
     import torch
@@ -21,6 +22,7 @@ def train_yolo():
         "--weights yolov5s.pt "
         "--name plate_detector"
     )
+
 
 if __name__ == "__main__":
     train_yolo()
